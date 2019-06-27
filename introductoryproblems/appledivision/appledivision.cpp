@@ -4,6 +4,7 @@ using namespace std;
 
 typedef long long ll;
 typedef vector<int> vi;
+typedef vector<long long> vll;
 typedef pair<int,int> pi;
 
 #define F first
@@ -18,23 +19,27 @@ int main() {
 
     int n;
     cin >> n;
-    vi apples;
+    vll apples;
+    ll sum = 0;
     REP(i, 1, n) {
-        int weight;
+        ll weight;
         cin >> weight;
         apples.PB(weight);
+        sum += weight;
     }
-    sort(apples.rbegin(), apples.rend());
 
-    int pile1 = 0, pile2 = 0;
-    for (auto weight : apples) {
-        if (pile1 + weight - pile2 > pile2 + weight - pile1) {
-            pile2 += weight;
-        } else {
-            pile1 += weight;
+    vll pile1;
+    pile1.PB(0);
+    ll minDiff = sum;
+    REP(j, 0, n - 1) {
+        int m = pile1.size();
+        REP(i, 0, m - 1) {
+            pile1.PB(pile1[i] + apples[j]);
+            if (abs(sum - 2 * (pile1[i] + apples[j])) < minDiff) {
+                minDiff = abs(sum - 2 * (pile1[i] + apples[j]));
+            }
         }
-        cout << pile1 << " " << pile2 << "\n";
     }
 
-    cout << abs(pile1 - pile2);
+    cout << minDiff;
 }
