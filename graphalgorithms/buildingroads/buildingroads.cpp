@@ -40,17 +40,16 @@ int main() {
         }
     }*/
 
-    function<int(int)> dfs = [&] (int s) -> int {
+    function<void(int)> dfs = [&] (int s) -> void {
         //cout << "Got to " << s + 1 << "\n";
         if (visited[s]) {
-            return 0;
+            return;
         }
         visited[s] = true;
         for (auto u : adj[s]) {
             //cout << "At " << s + 1 << ", going to " << u + 1 << "\n";
             dfs(u);
         }
-        return 0;
     };
 
     REP(i, 1, m) {
@@ -68,7 +67,7 @@ int main() {
             sep_cities.PB(i);
             //cout << "Found another component: " << i + 1 << "\n";
             num_components++;
-            int temp = dfs(i);
+            dfs(i);
         }
     }
 
